@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7-Day Vegan Meal Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7a9e7e;
+    --sage-light: #a8c5aa;
+    --sage-dark: #4d7352;
+    --cream: #f7f3ec;
+    --warm-white: #fdfaf5;
+    --charcoal: #2c2c2c;
+    --muted: #7a7a72;
+    --accent: #c8733a;
+    --accent-light: #e8a87c;
+    --border: #ddd8cf;
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–warm-white);
+color: var(–charcoal);
+min-height: 100vh;
+}
+
+/* HEADER */
+header {
+background: var(–sage-dark);
+color: white;
+padding: 56px 40px 48px;
+position: relative;
+overflow: hidden;
+}
+header::before {
+content: ‘’;
+position: absolute;
+top: -60px; right: -60px;
+width: 260px; height: 260px;
+border-radius: 50%;
+background: rgba(255,255,255,0.06);
+}
+header::after {
+content: ‘’;
+position: absolute;
+bottom: -80px; left: 30%;
+width: 320px; height: 320px;
+border-radius: 50%;
+background: rgba(255,255,255,0.04);
+}
+.header-tag {
+display: inline-block;
+font-size: 11px;
+font-weight: 500;
+letter-spacing: 3px;
+text-transform: uppercase;
+color: var(–sage-light);
+margin-bottom: 14px;
+}
+h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2rem, 5vw, 3.4rem);
+font-weight: 700;
+line-height: 1.1;
+margin-bottom: 16px;
+}
+h1 em { font-style: italic; color: var(–accent-light); }
+.header-sub {
+font-size: 15px;
+font-weight: 300;
+color: rgba(255,255,255,0.72);
+max-width: 520px;
+line-height: 1.6;
+}
+.pills {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+margin-top: 24px;
+}
+.pill {
+background: rgba(255,255,255,0.12);
+border: 1px solid rgba(255,255,255,0.2);
+color: white;
+font-size: 12px;
+padding: 5px 14px;
+border-radius: 20px;
+font-weight: 400;
+}
+
+/* NAV TABS */
+.nav-wrapper {
+background: var(–cream);
+border-bottom: 1px solid var(–border);
+padding: 0 40px;
+position: sticky;
+top: 0;
+z-index: 100;
+}
+.nav-tabs {
+display: flex;
+gap: 0;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+background: none;
+border: none;
+padding: 16px 20px;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 13.5px;
+font-weight: 500;
+color: var(–muted);
+cursor: pointer;
+border-bottom: 2.5px solid transparent;
+white-space: nowrap;
+transition: all 0.2s;
+}
+.tab-btn:hover { color: var(–sage-dark); }
+.tab-btn.active {
+color: var(–sage-dark);
+border-bottom-color: var(–sage-dark);
+}
+
+/* MAIN */
+main { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.day-panel { display: none; animation: fadeIn 0.3s ease; }
+.day-panel.active { display: block; }
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(8px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+.day-header {
+display: flex;
+align-items: baseline;
+gap: 14px;
+margin-bottom: 32px;
+}
+.day-number {
+font-family: ‘Playfair Display’, serif;
+font-size: 3.6rem;
+font-weight: 700;
+color: var(–border);
+line-height: 1;
+}
+.day-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+font-weight: 400;
+font-style: italic;
+color: var(–sage-dark);
+}
+
+.meals-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 20px;
+}
+
+.meal-card {
+background: white;
+border: 1px solid var(–border);
+border-radius: 12px;
+overflow: hidden;
+display: grid;
+grid-template-columns: 120px 1fr;
+}
+
+.meal-type-col {
+background: var(–sage-dark);
+color: white;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 24px 12px;
+text-align: center;
+gap: 6px;
+}
+.meal-icon { font-size: 1.8rem; }
+.meal-label {
+font-size: 10px;
+font-weight: 500;
+letter-spacing: 2px;
+text-transform: uppercase;
+opacity: 0.85;
+}
+
+.meal-type-col.breakfast { background: #7a6a4f; }
+.meal-type-col.lunch     { background: var(–sage-dark); }
+.meal-type-col.dinner    { background: #3a5a4f; }
+.meal-type-col.snack     { background: #8a7060; }
+
+.meal-content {
+padding: 20px 24px;
+}
+.meal-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.15rem;
+font-weight: 700;
+margin-bottom: 6px;
+color: var(–charcoal);
+}
+.meal-desc {
+font-size: 13.5px;
+color: var(–muted);
+line-height: 1.55;
+margin-bottom: 12px;
+}
+.meal-tags {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+}
+.meal-tag {
+font-size: 11px;
+padding: 3px 10px;
+border-radius: 20px;
+border: 1px solid var(–border);
+color: var(–muted);
+background: var(–cream);
+}
+.meal-tag.green { border-color: var(–sage-light); color: var(–sage-dark); background: #eef4ef; }
+.meal-tag.orange { border-color: var(–accent-light); color: var(–accent); background: #fdf0e8; }
+
+/* NUTRITION NOTE */
+.nutrition-note {
+margin-top: 32px;
+background: #eef4ef;
+border-left: 3px solid var(–sage);
+border-radius: 0 8px 8px 0;
+padding: 16px 20px;
+font-size: 13px;
+color: var(–sage-dark);
+line-height: 1.6;
+}
+.nutrition-note strong { font-weight: 500; }
+
+/* TIPS SECTION */
+.tips-section {
+margin-top: 48px;
+padding-top: 40px;
+border-top: 1px solid var(–border);
+}
+.tips-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+font-weight: 700;
+margin-bottom: 24px;
+color: var(–charcoal);
+}
+.tips-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 16px;
+}
+.tip-card {
+background: white;
+border: 1px solid var(–border);
+border-radius: 10px;
+padding: 18px;
+}
+.tip-icon { font-size: 1.5rem; margin-bottom: 8px; }
+.tip-heading { font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(–charcoal); }
+.tip-text { font-size: 12.5px; color: var(–muted); line-height: 1.5; }
+
+@media (max-width: 600px) {
+header { padding: 40px 20px 36px; }
+.nav-wrapper { padding: 0 16px; }
+.meal-card { grid-template-columns: 80px 1fr; }
+.meal-type-col { padding: 16px 8px; }
+.meal-icon { font-size: 1.4rem; }
+main { padding: 28px 16px 60px; }
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <span class="header-tag">Nutrition Plan</span>
+  <h1>7-Day <em>Vegan</em><br>Meal Plan</h1>
+  <p class="header-sub">A wholesome week of plant-based eating, carefully crafted to keep saturated fat very low — no coconut products, maximum nourishment.</p>
+  <div class="pills">
+    <span class="pill">🌱 100% Vegan</span>
+    <span class="pill">💚 Very Low Sat. Fat</span>
+    <span class="pill">🚫 No Coconut</span>
+    <span class="pill">👤 Serves 1</span>
+  </div>
+</header>
+
+<div class="nav-wrapper">
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showDay(0)">Mon</button>
+    <button class="tab-btn" onclick="showDay(1)">Tue</button>
+    <button class="tab-btn" onclick="showDay(2)">Wed</button>
+    <button class="tab-btn" onclick="showDay(3)">Thu</button>
+    <button class="tab-btn" onclick="showDay(4)">Fri</button>
+    <button class="tab-btn" onclick="showDay(5)">Sat</button>
+    <button class="tab-btn" onclick="showDay(6)">Sun</button>
+  </div>
+</div>
+
+<main>
+
+<!-- DAY 1 -->
+
+<div class="day-panel active" id="day-0">
+  <div class="day-header">
+    <span class="day-number">01</span>
+    <span class="day-title">Fresh Beginnings</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Overnight Oats with Berries & Flaxseed</div>
+        <div class="meal-desc">Rolled oats soaked in oat milk with chia seeds, topped with mixed berries, sliced banana, and ground flaxseed. A drizzle of maple syrup for sweetness.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~1g sat fat</span>
+          <span class="meal-tag green">High fibre</span>
+          <span class="meal-tag orange">Omega-3</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Lentil & Vegetable Soup with Rye Bread</div>
+        <div class="meal-desc">Hearty red lentil soup with diced tomatoes, spinach, carrot, celery, and cumin. Served with a slice of rye bread. No added oils needed — naturally rich and filling.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.3g sat fat</span>
+          <span class="meal-tag green">High protein</span>
+          <span class="meal-tag green">Iron-rich</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🍎</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Apple with Almond Butter</div>
+        <div class="meal-desc">Sliced apple with 1 tbsp natural almond butter (low in saturated fat compared to other nut butters).</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.5g sat fat</span>
+          <span class="meal-tag orange">Vitamin E</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Chickpea & Spinach Stir-Fry with Brown Rice</div>
+        <div class="meal-desc">Chickpeas sautéed with garlic, fresh ginger, tomatoes, turmeric, and garam masala. Wilted spinach stirred through. Served over brown rice with a squeeze of lemon.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.8g sat fat</span>
+          <span class="meal-tag green">High protein</span>
+          <span class="meal-tag orange">Antioxidants</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 1 estimated total saturated fat: ~2.6g</strong> — well below the 10g daily limit for a very low sat-fat diet. All meals are whole-food focused with no added saturated fats.</div>
+</div>
+
+<!-- DAY 2 -->
+
+<div class="day-panel" id="day-1">
+  <div class="day-header">
+    <span class="day-number">02</span>
+    <span class="day-title">Mediterranean Vibes</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Smoothie Bowl with Granola</div>
+        <div class="meal-desc">Blended frozen mango, banana, and oat milk poured into a bowl. Topped with low-fat granola (oat-based, no nuts), kiwi slices, and a sprinkle of pumpkin seeds.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.8g sat fat</span>
+          <span class="meal-tag orange">Vitamin C</span>
+          <span class="meal-tag green">Energising</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Hummus & Roasted Veggie Wrap</div>
+        <div class="meal-desc">Wholegrain wrap filled with generous hummus, roasted red peppers, courgette, red onion, and rocket. A splash of balsamic glaze for depth.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~1g sat fat</span>
+          <span class="meal-tag green">High fibre</span>
+          <span class="meal-tag orange">Plant protein</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🥒</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Veggies & Hummus</div>
+        <div class="meal-desc">Cucumber sticks, carrot batons, and celery with a small pot of hummus for dipping.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.3g sat fat</span>
+          <span class="meal-tag green">Low cal</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Tomato-Basil Pasta with White Beans</div>
+        <div class="meal-desc">Wholewheat pasta tossed in a rich homemade tomato sauce with cannellini beans, garlic, fresh basil, and a tiny drizzle of olive oil. Topped with nutritional yeast.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.6g sat fat</span>
+          <span class="meal-tag green">Complex carbs</span>
+          <span class="meal-tag orange">Lycopene</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 2 estimated total saturated fat: ~2.7g.</strong> Olive oil is used sparingly — it's monounsaturated and heart-healthy in small amounts.</div>
+</div>
+
+<!-- DAY 3 -->
+
+<div class="day-panel" id="day-2">
+  <div class="day-header">
+    <span class="day-number">03</span>
+    <span class="day-title">Asian Inspired</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Tofu Scramble on Wholegrain Toast</div>
+        <div class="meal-desc">Crumbled firm tofu cooked with turmeric, garlic, black salt, and nutritional yeast. Served on 2 slices of wholegrain toast with sliced avocado (¼ avocado).</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~1.2g sat fat</span>
+          <span class="meal-tag green">High protein</span>
+          <span class="meal-tag orange">Calcium</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Miso Soup with Edamame & Soba Noodles</div>
+        <div class="meal-desc">Light white miso broth with soba noodles, edamame, shredded nori, spring onion, and a soft-cooked tofu cube. Seasoned with a dash of low-sodium soy sauce.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.5g sat fat</span>
+          <span class="meal-tag orange">Probiotics</span>
+          <span class="meal-tag green">Complete protein</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🍊</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Fruit & Seed Mix</div>
+        <div class="meal-desc">Orange segments with a tablespoon of sunflower seeds and a few dried apricots.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.2g sat fat</span>
+          <span class="meal-tag orange">Vitamin C & Iron</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Vegetable Fried Rice with Edamame</div>
+        <div class="meal-desc">Day-old brown rice stir-fried with peas, corn, edamame, carrot, and spring onion in a little sesame oil and soy sauce. Topped with sliced avocado.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.9g sat fat</span>
+          <span class="meal-tag green">Balanced macros</span>
+          <span class="meal-tag orange">Folate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 3 estimated total saturated fat: ~2.8g.</strong> Tofu and edamame are excellent low-sat-fat protein sources — and soy has been shown to support heart health.</div>
+</div>
+
+<!-- DAY 4 -->
+
+<div class="day-panel" id="day-3">
+  <div class="day-header">
+    <span class="day-number">04</span>
+    <span class="day-title">Middle Eastern Warmth</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Banana Oat Pancakes with Blueberries</div>
+        <div class="meal-desc">Mashed ripe banana blended with oats and oat milk, cooked in a non-stick pan (no oil). Served with fresh blueberries and a drizzle of agave nectar.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.5g sat fat</span>
+          <span class="meal-tag orange">Potassium</span>
+          <span class="meal-tag green">No added fat</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Falafel Bowl with Tabbouleh & Tahini Dressing</div>
+        <div class="meal-desc">Baked (not fried) falafel over bulgur wheat with tabbouleh (parsley, tomato, lemon, mint). Light tahini dressing made with lemon juice and water. Cucumber and radish on the side.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~1g sat fat</span>
+          <span class="meal-tag green">Baked not fried</span>
+          <span class="meal-tag orange">Calcium</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🍇</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Grapes & Walnuts</div>
+        <div class="meal-desc">A handful of red grapes with 4–5 walnut halves. Walnuts are the highest plant source of omega-3s.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.5g sat fat</span>
+          <span class="meal-tag orange">Omega-3 ALA</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Moroccan-Spiced Vegetable Stew with Couscous</div>
+        <div class="meal-desc">Aubergine, chickpeas, and tomatoes simmered with cinnamon, cumin, coriander, and harissa paste. Served over fluffy wholemeal couscous with fresh coriander and lemon.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.6g sat fat</span>
+          <span class="meal-tag orange">Anti-inflammatory</span>
+          <span class="meal-tag green">High fibre</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 4 estimated total saturated fat: ~2.6g.</strong> Tahini (sesame paste) has a small amount of saturated fat — the quantity used in this dressing is modest and within limits.</div>
+</div>
+
+<!-- DAY 5 -->
+
+<div class="day-panel" id="day-4">
+  <div class="day-header">
+    <span class="day-number">05</span>
+    <span class="day-title">Comfort & Colour</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Chia Pudding with Mango & Lime</div>
+        <div class="meal-desc">Chia seeds soaked overnight in oat milk with vanilla extract. Topped with fresh diced mango, a squeeze of lime, and a sprinkle of toasted oats.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.7g sat fat</span>
+          <span class="meal-tag orange">Omega-3</span>
+          <span class="meal-tag green">High fibre</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Rainbow Grain Bowl with Roasted Veg</div>
+        <div class="meal-desc">Quinoa base with roasted sweet potato, beetroot, red cabbage slaw, cucumber, and cherry tomatoes. Dressed with a lemon-tahini vinaigrette and topped with pumpkin seeds.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~1g sat fat</span>
+          <span class="meal-tag green">Complete protein</span>
+          <span class="meal-tag orange">Beta-carotene</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🥜</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Rice Cakes with Peanut Butter</div>
+        <div class="meal-desc">2 plain rice cakes with 1 tbsp natural peanut butter (just peanuts, no palm oil) and a few banana slices.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.7g sat fat</span>
+          <span class="meal-tag orange">Protein boost</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Black Bean Tacos with Corn Salsa</div>
+        <div class="meal-desc">Corn tortillas filled with seasoned black beans (cumin, smoked paprika), fresh corn salsa, shredded lettuce, tomato, and a squeeze of lime. A little guacamole for healthy fats.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.8g sat fat</span>
+          <span class="meal-tag orange">Folate & iron</span>
+          <span class="meal-tag green">Crowd pleaser</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 5 estimated total saturated fat: ~3.2g.</strong> Peanut butter and avocado do contain small amounts of saturated fat, but are rich in beneficial unsaturated fats — excellent choices overall.</div>
+</div>
+
+<!-- DAY 6 -->
+
+<div class="day-panel" id="day-5">
+  <div class="day-header">
+    <span class="day-number">06</span>
+    <span class="day-title">Easy Weekend</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Avocado Toast with Cherry Tomatoes</div>
+        <div class="meal-desc">Two slices of sourdough bread topped with mashed avocado, halved cherry tomatoes, red pepper flakes, and a squeeze of lemon. Finished with a pinch of flaky salt.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~1g sat fat</span>
+          <span class="meal-tag green">Heart-healthy fats</span>
+          <span class="meal-tag orange">Vitamin K</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Lentil & Kale Salad with Mustard Dressing</div>
+        <div class="meal-desc">Puy lentils over massaged kale with roasted cherry tomatoes, shredded carrot, and sunflower seeds. Dressed with Dijon mustard, apple cider vinegar, and a tiny drizzle of olive oil.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.4g sat fat</span>
+          <span class="meal-tag green">Iron & folate</span>
+          <span class="meal-tag orange">Vitamin K</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🫐</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Frozen Banana Nice Cream</div>
+        <div class="meal-desc">Blended frozen banana with a splash of oat milk until silky smooth. A natural and indulgent treat with almost no saturated fat.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.1g sat fat</span>
+          <span class="meal-tag orange">Sweet treat</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Stuffed Bell Peppers with Quinoa & Beans</div>
+        <div class="meal-desc">Bell peppers filled with a mixture of quinoa, black beans, sweetcorn, tomato, and herbs. Baked until tender. Topped with a drizzle of hot sauce or fresh salsa.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.5g sat fat</span>
+          <span class="meal-tag green">Oil-free baked</span>
+          <span class="meal-tag orange">Vitamin C & B6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 6 estimated total saturated fat: ~2g.</strong> One of the lightest days — perfect for a relaxed weekend where you might be snacking more freely elsewhere.</div>
+</div>
+
+<!-- DAY 7 -->
+
+<div class="day-panel" id="day-6">
+  <div class="day-header">
+    <span class="day-number">07</span>
+    <span class="day-title">Sunday Celebration</span>
+  </div>
+  <div class="meals-grid">
+    <div class="meal-card">
+      <div class="meal-type-col breakfast"><span class="meal-icon">🌅</span><span class="meal-label">Breakfast</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Baked Oat & Berry Porridge</div>
+        <div class="meal-desc">Thick-cut oats baked with oat milk, cinnamon, maple syrup, and mixed berries until golden. Topped with a handful of fresh raspberries and a few flaked almonds.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.6g sat fat</span>
+          <span class="meal-tag green">Beta-glucan</span>
+          <span class="meal-tag orange">Antioxidants</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col lunch"><span class="meal-icon">☀️</span><span class="meal-label">Lunch</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Warming Split Pea & Vegetable Soup</div>
+        <div class="meal-desc">Yellow split peas cooked with leeks, carrots, celery, and vegetable stock until thick and creamy — no cream needed. Seasoned with smoked paprika and fresh parsley.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.3g sat fat</span>
+          <span class="meal-tag green">High protein</span>
+          <span class="meal-tag green">Naturally creamy</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col snack"><span class="meal-icon">🍵</span><span class="meal-label">Snack</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Oat Milk Latte & Medjool Dates</div>
+        <div class="meal-desc">A warm oat milk latte with 2 Medjool dates — a naturally sweet, energy-sustaining afternoon treat.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.2g sat fat</span>
+          <span class="meal-tag orange">Natural energy</span>
+        </div>
+      </div>
+    </div>
+    <div class="meal-card">
+      <div class="meal-type-col dinner"><span class="meal-icon">🌙</span><span class="meal-label">Dinner</span></div>
+      <div class="meal-content">
+        <div class="meal-name">Mushroom & Lentil Bolognese with Spaghetti</div>
+        <div class="meal-desc">A hearty, meaty-textured sauce made with finely chopped mushrooms, green lentils, tomatoes, red wine, and Italian herbs. Served over wholewheat spaghetti with nutritional yeast.</div>
+        <div class="meal-tags">
+          <span class="meal-tag green">~0.5g sat fat</span>
+          <span class="meal-tag green">Umami-rich</span>
+          <span class="meal-tag orange">B vitamins</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nutrition-note">🌿 <strong>Day 7 estimated total saturated fat: ~1.6g.</strong> A beautiful end to the week — cosy, flavourful, and nourishing. The mushroom bolognese is a crowd-favourite that even non-vegans love.</div>
+</div>
+
+<!-- TIPS -->
+
+<div class="tips-section">
+  <div class="tips-title">Tips for Success</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🛒</div>
+      <div class="tip-heading">Batch Cook</div>
+      <div class="tip-text">Cook grains (rice, quinoa, lentils) in bulk on Sunday to save time across the week.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🥛</div>
+      <div class="tip-heading">Choose Oat Milk</div>
+      <div class="tip-text">Of all plant milks, oat milk is lowest in saturated fat and works great in cooking and coffee.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🫒</div>
+      <div class="tip-heading">Oil Sparingly</div>
+      <div class="tip-text">Use olive oil in teaspoon amounts. Try water-sautéing or non-stick pans to reduce oil further.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🌱</div>
+      <div class="tip-heading">Boost Protein</div>
+      <div class="tip-text">Add edamame, tofu, or legumes to any meal to keep protein high without raising saturated fat.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">📖</div>
+      <div class="tip-heading">Read Labels</div>
+      <div class="tip-text">Check nut butters and granola for added palm oil or coconut — common hidden sources.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">💧</div>
+      <div class="tip-heading">Stay Hydrated</div>
+      <div class="tip-text">Aim for 6–8 glasses of water daily. Herbal teas count too and support digestion.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+  function showDay(index) {
+    document.querySelectorAll('.day-panel').forEach((p, i) => {
+      p.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', i === index);
+    });
+  }
+</script>
+
+</body>
+</html>
